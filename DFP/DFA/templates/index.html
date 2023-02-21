@@ -1,0 +1,144 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard Forecasting</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <style>
+      canvas{
+        max-width: 500px;
+        height: 500px;
+        margin: 0 auto;
+        display: block;
+      }
+    </style>  
+</head>
+  <body>
+    <div class="container" style="background-color: whitesmoke; padding-top: 20px;">
+        <div class="row">
+            <div class="col-sm-3">
+              <img src="{% static 'img/360RepairLogo.png' %}" alt="Trulli" width="200" height="100">
+          </div>
+          <div class="col-sm-6">
+            <div style="border: 1px solid black; border-radius:5px; padding: 15px; background-color: lightgray;"><h1>360 Operational Dashboard</h1></div>
+          </div>
+          <div class="col-sm-3">
+            <img src="{% static 'img/t3.png' %}" alt="Trulli" width="100" height="100">
+          </div>
+        </div>
+        <br>
+        <div class="d-flex" style="padding: 5px; text-align: center;">
+            
+                <div class="p-2 flex-fill" style="background-color:skyblue; margin-left: 10px;">
+                    <row><img src="{% static 'img/profile.png' %}" alt="Trulli" width="50" height="50"><h1 style="text-align: center;">{{result1}}</h1></row>
+                    <row><h5 style="text-align: center;">Users</h5></row>
+                    </div>
+          <div class="p-2 flex-fill" style="background-color:skyblue; margin-left: 10px;">
+            <row><img src="{% static 'img/car.png' %}" alt="Trulli" width="50" height="50"><h1 style="text-align: center;">{{result2}}</h1></row>
+            <row><h5 style="text-align: center;">Vehicles</h5></row>
+            </div>
+            <div class="p-2 flex-fill" style="background-color:skyblue; margin-left: 10px; ">
+                <row><img src="{% static 'img/user.png' %}" alt="Trulli" width="50" height="50"><h1 style="text-align: center;">{{result3}}</h1></row>
+                <row><h5 style="text-align: center;">Customer</h5></row>
+                </div>
+                <div class="p-2 flex-fill" style="background-color:skyblue; margin-left: 10px; ">
+                    <row><img src="{% static 'img/price-list.png' %}" alt="Trulli" width="50" height="50"><h1 style="text-align: center;">{{result4}}</h1></row>
+                    <row><h5 style="text-align: center;">Quotes</h5></row>
+                    </div>
+                    <div class="p-2 flex-fill" style="background-color:skyblue; margin-left: 10px; ">
+                        <row><img src="{% static 'img/spare-parts.png' %}" alt="Trulli" width="50" height="50"><h1 style="text-align: center;">{{result5}}</h1></row>
+                        <row><h5 style="text-align: center;">Parts Supply</h5></row>
+                        </div>
+                        <div class="p-2 flex-fill" style="background-color:skyblue; margin-left: 10px; ">
+                            <row><img src="{% static 'img/workshop.png' %}" alt="Trulli" width="50" height="50"><h1 style="text-align: center;">{{result6}}</h1></row>
+                            <row><h5 style="text-align: center;">Workshop</h5></row>
+                            </div>
+          </div>
+          <br>
+          <div class="d-flex" style=" text-align: center;">
+            
+                <div class="col-md-12"><h4>Count By MAKE</h4><canvas id="pie-chart"></canvas></div>
+                
+              </div>
+            
+                
+          </div>
+        </div>
+      </div>  
+      
+  <script>
+    var ctx = document.getElementById('pie-chart').getContext('2d');
+    var chart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ['MAKE','TOYOTA', 'HYUNDAI', 'KIA', 'CHANGAN', 'NISSAN', 'BMW', 'CHEVROLET', 'AUDI', 'ISUZU', 'SUZUKI'],
+        datasets: [{
+          data: [0,361, 255, 111, 87, 86, 73, 61, 56, 52, 46],
+          backgroundColor: [
+            'whitesmoke',
+            '#1685ea',
+            '#0b2489',
+            '#e16d39',
+            '#6c0673',
+            '#e447ae',
+            '#7451bf',
+            '#dbac0e',
+            '#cc3f48',
+            '#186872',
+            '#25a739'
+          ],
+          borderColor: [
+            'whitesmoke',
+            '#1685ea',
+            '#0b2489',
+            '#e16d39',
+            '#6c0673',
+            '#e447ae',
+            '#7451bf',
+            '#dbac0e',
+            '#cc3f48',
+            '#186872',
+            '#25a739'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: {
+          animateRotate: true,
+          animateScale: true
+        },
+        legend: {
+          position: 'right',
+          labels: {
+            fontColor: 'black',
+            fontSize: 14
+          }
+        }
+      }
+    });
+
+
+
+    fetch('http://127.0.0.1:8000/q1/')
+  .then(response => response.json())
+  .then(data => {
+    // Access the value of the field_name field
+    let value = data.myresult;
+
+    // Display the value on the page
+    let div = document.createElement('div');
+    div.innerHTML = value;
+    document.body.appendChild(div);
+  });
+  </script>    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>  
+</body>
+</html>
